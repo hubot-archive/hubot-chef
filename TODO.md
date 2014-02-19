@@ -1,5 +1,7 @@
 # TODO
 
+0) Good tests ;) I'm working on them I swear!
+
 1) create a helper for the following because it's repeated too much.
 ```
   robot.respond /nodes list$/i, (msg) ->
