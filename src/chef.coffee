@@ -14,8 +14,8 @@
 #   hubot knife node show <name> - chef: Display node run_list et al
 #   hubot knife role show <name> - chef: Display role configurations et al
 #   hubot knife client show <name> - chef: Display client configurations et al
-#   hubot nodes list - chef: Lists all nodes on chef server
-#   hubot nodes status - chef: Get knife status of all nodes
+#   hubot node list - chef: Lists all nodes on chef server
+#   hubot node status - chef: Get knife status of all nodes
 #   hubot uptime <server> - chef: Prints uptime per node
 #
 # Author:
@@ -23,7 +23,7 @@
 
 
 module.exports = (robot) ->
-  robot.respond /nodes list$/i, (msg) ->
+  robot.respond /node list$/i, (msg) ->
     spawn = require('child_process').spawn
 
     server = msg.match[1]
@@ -57,7 +57,7 @@ module.exports = (robot) ->
     spawn = require('child_process').spawn
 
     server = msg.match[1]
-    command = "knife node list"
+    command = "knife environment list"
 
     msg.send "Listing environments..."
 
