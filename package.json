@@ -1,0 +1,38 @@
+{
+  "name": "hubot-chef",
+  "description": "A hubot wrapper script for chef/knife",
+  "version": "1.0.0",
+  "author": "JJ Asghar <jjasghar@gmail.com>",
+  "license": "MIT",
+
+  "keywords": [
+    "hubot",
+    "hubot-scripts"
+  ],
+
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jjasghar/hubot-chef.git"
+  },
+
+  "bugs": {
+    "url": "https://github.com/jjasghar/hubot-chef/issues"
+  },
+
+  "dependencies": {
+    "coffee-script": "~1.6"
+  },
+
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "sinon-chai": "*",
+    "sinon": "*"
+  },
+
+  "main": "index.coffee",
+
+  "scripts": {
+    "test": "script/test"
+  }
+}
