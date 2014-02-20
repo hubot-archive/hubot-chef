@@ -31,7 +31,7 @@ I have a [TODO.md](TODO.md) for the plans I want in it. If you want to do it you
 ## Sample Interaction
 
 ```
-user1> hubot node status
+user1> hubot knife node status
 hubot> Getting statuses of all nodes...
 hubot> 4 hours ago, apt, apt, 10.177.135.91, ubuntu 12.04.
 
