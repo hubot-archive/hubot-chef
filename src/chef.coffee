@@ -16,112 +16,69 @@
 #   hubot knife client show <name> - chef: Display client configurations et al
 #   hubot node list - chef: Lists all nodes on chef server
 #   hubot node status - chef: Get knife status of all nodes
+#   hubot node show <node> - chef: Get knife status of all nodes
 #   hubot uptime <server> - chef: Prints uptime per node
 #
 # Author:
 #   jjasghar
+#   mattdbridges
+#
 
+exec  = require('child_process').exec
+
+execCommand = (msg, cmd) ->
+  exec cmd, (error, stdout, stderr) ->
+    msg.send error
+    msg.send stdout
+    msg.send stderr
 
 module.exports = (robot) ->
-  robot.respond /node list$/i, (msg) ->
-    spawn = require('child_process').spawn
 
-    server = msg.match[1]
-    command = "knife node list"
+  robot.respond /node (list|status)$/i, (msg) ->
+    subcmd = msg.match[1]
+    command = "knife node #{subcmd}"
 
     msg.send "Listing nodes..."
+    execCommand msg, command
 
-    @exec = require('child_process').exec
+  robot.respond /node show (.*)$/i, (msg) ->
+    nodeName = msg.match[1]
+    command = "knife node show #{nodeName}"
 
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
-
-  robot.respond /node status$/i, (msg) ->
-    spawn = require('child_process').spawn
-
-    server = msg.match[1]
-    command = "knife status"
-
-    msg.send "Getting statuses of all nodes..."
-
-    @exec = require('child_process').exec
-
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
+    msg.send "Showing node for #{nodeName}..."
+    execCommand msg, command
 
   robot.respond /environment list$/i, (msg) ->
-    spawn = require('child_process').spawn
-
-    server = msg.match[1]
     command = "knife environment list"
 
     msg.send "Listing environments..."
-
-    @exec = require('child_process').exec
-
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
-
+    execCommand msg, command
 
   robot.respond /knife (node|role|client) show (.*)$/i, (msg) ->
-    spawn = require('child_process').spawn
-
     subcmd = msg.match[1]
     name = msg.match[2]
     command = "knife #{subcmd} show #{name}"
 
     msg.send "Running: #{command}"
-
-    @exec = require('child_process').exec
-
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
+    execCommand msg, command
 
   robot.respond /uptime (.*)$/i, (msg) ->
-    spawn = require('child_process').spawn
     server = msg.match[1]
-
     command = "knife ssh name:#{server} 'uptime'"
 
     msg.send "Checking #{server} for uptime..."
-
-    @exec = require('child_process').exec
-
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
+    execCommand msg, command
 
   robot.respond /converge (.*)$/i, (msg) ->
     server = msg.match[1]
-
-    @exec = require('child_process').exec
-
     command = "knife ssh --attribute ipaddress --no-color name:#{server} 'sudo chef-client'"
 
     msg.send "Converging #{server}."
-
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
+    execCommand msg, command
 
   robot.respond /converge-environment (.*)$/i, (msg) ->
-    # environment = msg.match[1]
-    # @exec = require('child_process').exec
-    # command = "knife ssh --no-color --attribute ipaddress chef_environment:#{environment} 'sudo chef-client'"
+    environment = msg.match[1]
+    command = "knife ssh --no-color --attribute ipaddress chef_environment:#{environment} 'sudo chef-client'"
 
     msg.send "Configuring #{environment}....nope just kidding man, you have balls..."
-
-    @exec command, (error, stdout, stderr) ->
-      msg.send error
-      msg.send stdout
-      msg.send stderr
+    # execCommand msg, command
