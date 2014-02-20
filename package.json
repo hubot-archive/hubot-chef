@@ -1,7 +1,7 @@
 {
   "name": "hubot-chef",
   "description": "A hubot wrapper script for chef/knife",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "JJ Asghar <jjasghar@gmail.com>",
   "license": "MIT",
 
