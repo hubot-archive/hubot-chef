@@ -2,20 +2,20 @@
 #   Allows hubot to run commands using chef/knife.
 #
 # Dependencies:
-#   chef somehow installed on the box
+#   knife installed in your $PATH
 #
 # Configuration:
-#   knife.rb should be configured to run
+#   knife configured in your $PATH, you'll see a WARNING in console if you don't have it
 #
 # Commands:
 #   hubot converge <server> - chef: Runs chef-client on node
 #   hubot converge-environment <environment> - chef: Runs chef-client across an environment
 #   hubot environment list -  chef: Lists all environments on chef server
+#   hubot knife client show <name> - chef: Display client configurations et al
 #   hubot knife node show <name> - chef: Display node run_list et al
 #   hubot knife role show <name> - chef: Display role configurations et al
-#   hubot knife client show <name> - chef: Display client configurations et al
+#   hubot knife status - chef: Display status for all nodes
 #   hubot node list - chef: Lists all nodes on chef server
-#   hubot node status - chef: Get knife status of all nodes
 #   hubot node show <node> - chef: Get knife status of all nodes
 #   hubot uptime <server> - chef: Prints uptime per node
 #
@@ -32,11 +32,21 @@ execCommand = (msg, cmd) ->
     msg.send stdout
     msg.send stderr
 
+checkKnife = "which knife"
+exec checkKnife, (error, stdout, stderr) ->
+  if stdout == "" or stdout is "knife not found"
+    console.log "WARN: you don't have knife in your $PATH, so this probably won't work....."
+
 module.exports = (robot) ->
 
-  robot.respond /node (list|status)$/i, (msg) ->
-    subcmd = msg.match[1]
-    command = "knife node #{subcmd}"
+  robot.respond /knife status$/i, (msg) ->
+    command = "knife status"
+
+    msg.send "Outputing status for all nodes..."
+    execCommand msg, command
+
+  robot.respond /node list$/i, (msg) ->
+    command = "knife node list"
 
     msg.send "Listing nodes..."
     execCommand msg, command
