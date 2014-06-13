@@ -1,7 +1,7 @@
 {
   "name": "hubot-chef",
   "description": "A hubot wrapper script for chef/knife",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "author": "JJ Asghar <jjasghar@gmail.com>",
   "license": "MIT",
 
@@ -12,11 +12,11 @@
 
   "repository": {
     "type": "git",
-    "url": "git@github.com:jjasghar/hubot-chef.git"
+    "url": "git@github.com:hubot-scripts/hubot-chef.git"
   },
 
   "bugs": {
-    "url": "https://github.com/jjasghar/hubot-chef/issues"
+    "url": "https://github.com/hubot-scripts/hubot-chef/issues"
   },
 
   "dependencies": {
