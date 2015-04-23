@@ -28,9 +28,9 @@ exec  = require('child_process').exec
 
 execCommand = (msg, cmd) ->
   exec cmd, (error, stdout, stderr) ->
-    msg.send error
+    msg.send error if error
     msg.send stdout
-    msg.send stderr
+    msg.send stderr if stderr
 
 checkKnife = "which knife"
 exec checkKnife, (error, stdout, stderr) ->
