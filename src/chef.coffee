@@ -15,6 +15,8 @@
 #   hubot knife node show <name> - chef: Display node run_list et al
 #   hubot knife role show <name> - chef: Display role configurations et al
 #   hubot knife status - chef: Display status for all nodes
+#   hubot knife search <query> - chef: run a knife search with given query
+#   hubot knife search long <query> - chef: run a knife search with given query and return ALL attributes
 #   hubot node list - chef: Lists all nodes on chef server
 #   hubot node show <node> - chef: Get knife status of all nodes
 #   hubot uptime <server> - chef: Prints uptime per node
@@ -27,7 +29,10 @@
 exec  = require('child_process').exec
 
 execCommand = (msg, cmd) ->
-  exec cmd, (error, stdout, stderr) ->
+  @maxBuffer = 1024*1024
+  options =
+    'maxBuffer': @maxBuffer
+  exec cmd, options, (error, stdout, stderr) ->
     msg.send error if error
     msg.send stdout
     msg.send stderr if stderr
@@ -43,6 +48,13 @@ module.exports = (robot) ->
     command = "knife status"
 
     msg.send "Outputing status for all nodes..."
+    execCommand msg, command
+
+  robot.respond /knife status (.*)$/i, (msg) ->
+    query = msg.match[1]
+    command = "knife status #{query}"
+
+    msg.send "Outputing status for #{query}"
     execCommand msg, command
 
   robot.respond /node list$/i, (msg) ->
@@ -77,6 +89,20 @@ module.exports = (robot) ->
     command = "knife ssh name:#{server} 'uptime'"
 
     msg.send "Checking #{server} for uptime..."
+    execCommand msg, command
+
+  robot.respond /knife search long (.*)$/i, (msg) ->
+    query = msg.match[1]
+    command = "knife search #{query}"
+
+    msg.send "Running knife search #{query}"
+    execCommand msg, command
+
+  robot.respond /knife search (.*)$/i, (msg) ->
+    query = msg.match[1]
+    command = "knife search -i #{query}"
+
+    msg.send "Running knife search -i #{query}"
     execCommand msg, command
 
   robot.respond /converge (.*)$/i, (msg) ->
