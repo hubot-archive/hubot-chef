@@ -124,7 +124,7 @@ module.exports = (robot) ->
     ruby = msg.match[1]
     command = "knife exec -E #{ruby}"
     
-    msg.send "Your knife is my command!"
+    msg.send "Running knife exec -E #{ruby}"
     execCommand msg, command
     
     
