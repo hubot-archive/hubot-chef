@@ -17,6 +17,7 @@
 #   hubot knife status - chef: Display status for all nodes
 #   hubot knife search <query> - chef: run a knife search with given query
 #   hubot knife search long <query> - chef: run a knife search with given query and return ALL attributes
+#   hubot knife exec -E '<ruby command>' - chef: run a ruby command
 #   hubot node list - chef: Lists all nodes on chef server
 #   hubot node show <node> - chef: Get knife status of all nodes
 #   hubot uptime <server> - chef: Prints uptime per node
@@ -118,3 +119,12 @@ module.exports = (robot) ->
 
     msg.send "Configuring #{environment}....nope just kidding man, you have balls..."
     # execCommand msg, command
+    
+  robot.respond /knife exec -E (.*)$/i, (msg) ->
+    ruby = msg.match[1]
+    command = "knife exec -E #{ruby}"
+    
+    msg.send "Your knife is my command!"
+    execCommand msg, command
+    
+    
